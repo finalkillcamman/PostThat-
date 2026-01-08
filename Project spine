@@ -1,6 +1,7 @@
 PostThat-/
-├─ backend/
-├─ frontend/
-├─ storage/
+├─ backend/      ← FastAPI
+├─ frontend/     ← Web/PWA
+├─ storage/      ← Media
+├─ app.py
 ├─ requirements.txt
-└─ app.py
+└─ README.md
