@@ -180,3 +180,21 @@ def merge(files: str = Form(...), u: str = Depends(user)):
     out = os.path.join(d, "merged.mp4")
     subprocess.run(["ffmpeg","-y","-f","concat","-safe","0","-i",lst,"-c","copy",out])
     return RedirectResponse("/", 302)
+
+@app.post("/ai_highlight")
+def ai_highlight(file: str = Form(...), u: str = Depends(user)):
+    d = os.path.join(UPLOADS, u)
+    src = os.path.join(d, file)
+    out = os.path.join(d, "highlight_" + file)
+
+    subprocess.run([
+        "ffmpeg", "-y",
+        "-i", src,
+        "-vf", "select='gt(scene,0.4)',setpts=N/FRAME_RATE/TB",
+        "-af", "aselect='gt(scene,0.4)',asetpts=N/SR/TB",
+        out
+    ])
+
+    return RedirectResponse("/", 302)
+
+AI Highlight
