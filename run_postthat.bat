@@ -4,6 +4,10 @@ npx cap init PostThat com.postthat.app
 @echo off
 cd /d %~dp0
 
+npx cap add android
+npx cap add ios
+
+
 if not exist venv (
     python -m venv venv
 )
