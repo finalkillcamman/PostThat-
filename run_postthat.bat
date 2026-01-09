@@ -1,3 +1,6 @@
+npm install @capacitor/core @capacitor/cli
+npx cap init PostThat com.postthat.app
+
 @echo off
 cd /d %~dp0
 
