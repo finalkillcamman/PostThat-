@@ -1,3 +1,7 @@
+PostThat-/
+├─ app.py
+├─ requirements.txt
+└─ uploads/
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
