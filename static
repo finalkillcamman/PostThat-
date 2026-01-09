@@ -1,1 +1,10 @@
 static/samurai.png
+
+{
+  "name": "PostThat",
+  "short_name": "PostThat",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0016",
+  "theme_color": "#7a1fff"
+}
