@@ -115,3 +115,7 @@ def download(filename: str):
         return FileResponse(filepath, filename=filename)
     return {"error": "File not found"}
 
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn app:app --reload
