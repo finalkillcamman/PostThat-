@@ -1,1 +1,71 @@
+from fastapi import FastAPI, UploadFile, File, Form
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse, FileResponse
+import shutil, os, uuid, subprocess
+
+app = FastAPI(title="PostThat")
+
+UPLOAD_DIR = "uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/", response_class=HTMLResponse)
+def home():
+    return """
+    <html>
+    <head>
+      <title>PostThat</title>
+      <link rel="manifest" href="/static/manifest.json">
+      <style>
+        body { background:#0b0016; color:#b266ff; font-family:Arial }
+        button { background:#7a1fff; color:white; padding:10px; border:none }
+      </style>
+    </head>
+    <body>
+      <h1>PostThat 🥷</h1>
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file"/>
+        <button>Upload</button>
+      </form>
+    </body>
+    </html>
+    """
+
+@app.post("/upload")
+async def upload(file: UploadFile = File(...)):
+    fid = f"{uuid.uuid4()}_{file.filename}"
+    path = os.path.join(UPLOAD_DIR, fid)
+    with open(path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    return {"file": fid}
+
+@app.get("/download/{filename}")
+def download(filename: str):
+    return FileResponse(os.path.join(UPLOAD_DIR, filename))
+
+# Video trim
+@app.post("/trim")
+def trim_video(filename: str = Form(...), start: str = Form(...), end: str = Form(...)):
+    out = f"trim_{filename}"
+    subprocess.run([
+        "ffmpeg", "-i", f"{UPLOAD_DIR}/{filename}",
+        "-ss", start, "-to", end,
+        "-c", "copy", f"{UPLOAD_DIR}/{out}"
+    ])
+    return {"output": out}
+
+# Video merge
+@app.post("/merge")
+def merge_videos(file1: str = Form(...), file2: str = Form(...)):
+    listfile = os.path.join(UPLOAD_DIR, "list.txt")
+    with open(listfile, "w") as f:
+        f.write(f"file '{file1}'\nfile '{file2}'\n")
+    out = "merged.mp4"
+    subprocess.run([
+        "ffmpeg", "-f", "concat", "-safe", "0",
+        "-i", listfile, "-c", "copy",
+        f"{UPLOAD_DIR}/{out}"
+    ])
+    return {"output": out}
 
