@@ -1,0 +1,5 @@
+{
+  "appId": "com.postthat.app",
+  "appName": "PostThat",
+  "webDir": "../frontend"
+}
