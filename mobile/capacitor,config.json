@@ -3,3 +3,6 @@
   "appName": "PostThat",
   "webDir": "../frontend"
 }
+
+npx cap add android
+npx cap add ios
