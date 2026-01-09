@@ -1,0 +1,28 @@
+PostThat/
+│
+├─ backend/
+│  ├─ app.py                # FastAPI backend
+│  ├─ auth.py               # User auth logic
+│  ├─ media.py              # Upload / download / edit
+│  ├─ ai_tools.py           # AI-assisted editing
+│  ├─ cloud.py              # Cloud storage (S3 compatible)
+│  ├─ database.py           # SQLite setup
+│  └─ requirements.txt
+│
+├─ frontend/
+│  ├─ index.html
+│  ├─ styles.css
+│  ├─ app.js
+│  └─ manifest.json         # PWA
+│
+├─ mobile/
+│  └─ capacitor.config.json # Mobile app wrapper
+│
+├─ desktop/
+│  └─ build.bat             # Desktop app build
+│
+├─ uploads/                 # Local media
+├─ static/
+│  └─ samurai.png
+│
+└─ README.md
