@@ -2,10 +2,28 @@ npm install @capacitor/core @capacitor/cli
 npx cap init PostThat com.postthat.app
 
 @echo off
-cd /d %~dp0
+REM Run from your project root (where package.json is)
+REM 1) Install Capacitor packages (including Android runtime)
+npm install @capacitor/core @capacitor/cli @capacitor/android --save
 
-npx cap add android
-npx cap add ios
+REM 2) Initialize Capacitor if you haven't already (creates capacitor.config.json)
+npx cap init "PostThat" "com.postthat.app" --web-dir=www
+
+REM 3) Build your web assets (adjust if your framework uses a different command)
+REM - React: npm run build  -> produces build/ (you would change --web-dir above to build)
+REM - Ionic/Vanilla: ensure a "www" folder exists
+npm run build
+
+REM 4) (Temporarily) set Java and Android SDK for this terminal session.
+REM Replace the paths below with your actual JDK and SDK locations if different.
+set "JAVA_HOME=C:\Program Files\Java\jdk-11"
+set "ANDROID_SDK_ROOT=%USERPROFILE%\AppData\Local\Android\Sdk"
+set PATH=%JAVA_HOME%\bin;%ANDROID_SDK_ROOT%\platform-tools;%PATH%
+
+REM 5) Add Android (verbose output so you can paste error text if it fails)
+npx cap add android --verbose
+
+pause
 
 
 if not exist venv (
