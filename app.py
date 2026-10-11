@@ -196,5 +196,3 @@ def ai_highlight(file: str = Form(...), u: str = Depends(user)):
     ])
 
     return RedirectResponse("/", 302)
-
-AI Highlight
